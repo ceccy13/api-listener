@@ -2,11 +2,8 @@
 
 namespace App;
 
-
 class DBTableFactory
 {
-    private static $obj;
-
     public static function insert($table, $response)
     {
         /* if($table == 'order'){
@@ -20,9 +17,8 @@ class DBTableFactory
          }*/
 
         $className = 'App\\'.ucfirst(strtolower($table));
-        self::$obj = new $className;
 
-        return self::$obj->set($response);
+        return $className->set($response);
     }
 
 }
