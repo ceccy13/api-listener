@@ -1,0 +1,43 @@
+.mc-dark-color-background {
+    background-color: #3D3D3D;
+}
+.mc-body-background-color {
+    background-color: lightgray;
+}
+.mc-min-height-middle {
+    position: relative;
+    min-height:78vh;
+
+}
+.mc-footer-1{
+    position: relative;
+    min-height: 50px;
+    background-color: #3D3D3D;
+    color: #FFFFFF;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+.mc-footer-1 p {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.mc-el-info{
+    width: 250px;
+    height: auto;
+    background-color: #FFFFFF;
+    color: #2f4f4f;
+    padding: 0px 0px 5px 5px;
+}
+.mc-el-wrapper{
+    border: 1px solid #3D3D3D;
+    padding: 10px 0px 10px 10px;
+    border: 1px dotted #FFFFFF;
+}
+.mc-label-valid-status{
+    color: #4caf50;
+}
+.mc-label-recording-status{
+    float: right;
+    margin-left: 50px;
+    padding: 5px;
+}
