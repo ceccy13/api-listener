@@ -1,4 +1,4 @@
-<?php
+<?phptest
 
 namespace App\Traits;
 
