@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Api;
 use App\DBTableFactory;
+use App\DBTableRecordFactory;
 use App\Token;
 use App\Converter;
 use App\StringResponseParser;
@@ -52,7 +53,7 @@ trait ProcessTrait
         $parser = new StringResponseParser($this->response);
         $table = $parser->getTableName();
         $parsed_response = $parser->getParsedResponse();
-        DBTableFactory::insert($table, $parsed_response);
+        DBTableRecordFactory::insert($table, $parsed_response);
 
         $this->refresh_rate = 5;
     }
