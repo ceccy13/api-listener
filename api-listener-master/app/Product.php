@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 
-class Product
+class Product implements iDatabaseInterface
 {
     public static function set($response)
     {

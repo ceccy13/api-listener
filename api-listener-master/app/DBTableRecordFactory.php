@@ -7,11 +7,13 @@ class DBTableRecordFactory
     public static function insert($table, $response)
     {
         $className = 'App\\'.ucfirst(strtolower($table));
-        if(($className instanceof iTradersInterface)){
-            echo get_class($className).' is not istance of iTradersInterface';
+        if(is_a($className, 'App\iDatabaseInterface', true)){
+            return $className::set($response);
+        }
+        else{
+            echo $className.' is not istance of App\iDatabaseInterface';
             return false;
         }
-        return $className::set($response);
     }
 
 }
