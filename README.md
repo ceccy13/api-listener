@@ -59,61 +59,105 @@ Api-Listener Project
 
 ./api-listener-master/.env
 
-WAP Dev Client Api Listener
+WAP Dev Client Api Listener Task
 
-Входяща точка на приложението за тестване на Localhost Server:
-http://localhost/ApiListener-master/public/
+Integrate to the provided API. The Postman collection is to get familiar and to test the API.
 
-P.S.
-Project Directory може да е с различно име от Apilistener-master, което е по default при download на проекта в .zip формат от GitHub
+The Authentication is a standard OAuth2 with Client Credentials Grant. The token from the
 
-Линк към проекта в GitHub:
-https://github.com/ceccy13/ApiListener
+response is valid for one hour. The username and password needed are provided in the
 
-Пътищата до основните файловете с кода на проекта:
+Postman collection.
 
-Models
-App\Token.php;
-App\Api.php;
-App\StringResponseParser.php;
-App\Converter.php;
-App\Database.php;
+The request to get the feed info requires for you to be authenticated. The response will either
 
-Controller
-App\Http\Controllers\ApiController.php
+be about an order or a product. And it will be encoded in this way:
 
-Views
-Resources\views\header.php
-Resources\views\footer.php
-Resources\views\home.php
-Resources\views\products.php
-Resources\views\orders.php
+[order,product]:[fieldName1](\\fieldEncoding1){[fieldValue1]}||
+[fieldName2](\\fieldEncoding2){[fieldValue2]}…
 
-Http Routes
-Routes\web.php
+The part in the () is optional. You need to parse this string and save it in a database.
 
-файл с база данни - api_db.sql (в директорията на проекта)
-Database default setting for localhost test
-Server: localhost
-Database api_db
-user: root
-Pass:
+The unique field for the order is `id` and for the product is `SKU`.
 
-Home Directory
-.env - за допълнителни настройки
-
-
-Тези данни от response-a са с дублирани id – та, които по условие на заданието трябва да са уникални, затова се записва само първия от дублираните в Database
-
-"order:id{1004871}||total{10.46}||shipping_total{2.4}||create_time{1579866242}||timezone{Asia\/Singapore}"
-"order:id{1004871}||total{10.46}||shipping_total{2.4}||create_time{1579867242}||timezone{Europe\/London}"
-"order:id{1004872}||total{10.46}||shipping_total{2.4}||create_time{1579866222}||timezone{Asia\/Singapore}"
-"order:id{1004872}||total{10.46}||shipping_total{2.4}||create_time{1579866342}||timezone{Europe\/Berlin}"
-"order:id{1004875}||total{10.46}||shipping_total{2.4}||create_time{1579866242}||timezone{Europe\/Sofia}"
-"order:id{1004875}||total{10.46}||shipping_total{2.4}||create_time{1579896242}||timezone{Europe\/Berlin}"
-"order:id{1004879}||total{10.46}||shipping_total{2.4}||create_time{1579856242}||timezone{Asia\/Singapore}"
-"order:id{1004879}||total{10.46}||shipping_total{2.4}||create_time{1579866242}||timezone{Europe\/London}"
-"product:title{Demo8}||SKU{DEMOSK002}||image\\base64;jpeg{\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wCEAAkGBxAPEBAPDxAPEBAVDw8SDw8PDw8PDw8OF
-"product:title{Demo2}||SKU{DEMOSK002}||image\\base64;jpeg{\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wBDAAsICAgICAsICAsQCwkLEBMOCwsOExYSEhMSE
-"product:title{Demo7}||SKU{DEMOSK001}||image\\base64;jpeg{\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wCEAAkGBxAPEBAPDxAPEBAVDw8SDw8PDw8PDw8OF
-"product:title{Demo1}||SKU{DEMOSK001}||image\\base64;jpeg{\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wBDAAsICAgICAsICAsQCwkLEBMOCwsOExYSEhMSE
+{
+	"info": {
+		"_postman_id": "b60d9720-1363-4c74-8e96-22c34bba0eb3",
+		"name": "WAP Dev Interview",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autheticate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "client_id",
+							"value": "vladislav.stratonikov@wearepentagon.com",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://apptest.wearepentagon.com/devInterview/API/en/access-token",
+					"protocol": "https",
+					"host": [
+						"apptest",
+						"wearepentagon",
+						"com"
+					],
+					"path": [
+						"devInterview",
+						"API",
+						"en",
+						"access-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get feed",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjdkMzA4N2NhMjM0MTgyZTBmMDE5YjU2ZWU3ODI3OWFjMWE5YjczN2RjMjVlZDkyZjk4ZjY5ZTQ0NDc1M2ZmZjk1YWQxMWNlOWJkMTczNjI1In0.eyJhdWQiOiJ2bGFkaXNsYXYuc3RyYXRvbmlrb3ZAd2VhcmVwZW50YWdvbi5jb20iLCJqdGkiOiI3ZDMwODdjYTIzNDE4MmUwZjAxOWI1NmVlNzgyNzlhYzFhOWI3MzdkYzI1ZWQ5MmY5OGY2OWU0NDQ3NTNmZmY5NWFkMTFjZTliZDE3MzYyNSIsImlhdCI6MTU3OTg2Nzc0MiwibmJmIjoxNTc5ODY3NzQyLCJleHAiOjE1Nzk4NzEzNDIsInN1YiI6IiIsInNjb3BlcyI6W119.Sr_6-0AHRX_bPUT5oEAJOWbcE4QSaxBxYegxTfJCxHnbGsTQZ2S6ujUZC5mD7-bOKGHEvK5I4uUvRYR8ND_v78IGLv54eP0GlPcap47hTvzqNglmQ04VAVcp94GoTpsk8ZYZy_o7FKcnQ9jWj_429HOtlOMmW5GOxEuVnGILbpe9R-bqf69cSs1UBcrnWM9CjzITtqyuXhpj2X93LnnXALLezTzVIgnHy0whpyN0rkvXUpBOdJy4MyNdNuWqlsGVXhQLFOcOl5dSOopFWIONI9rJpaHqdX3MrkG0uDKKChIlIgtjQpEwXAfmOwjYeqb_zUnOFeU89HMJsAQdlBNNyQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://apptest.wearepentagon.com/devInterview/API/en/get-random-test-feed",
+					"protocol": "https",
+					"host": [
+						"apptest",
+						"wearepentagon",
+						"com"
+					],
+					"path": [
+						"devInterview",
+						"API",
+						"en",
+						"get-random-test-feed"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
