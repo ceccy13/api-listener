@@ -1,3 +1,61 @@
+
+-- Paths To My Project Files --
+
+-- Controller --
+
+./api-listener-master/app/Http/Controllers/ApiController.php
+
+-- Models --
+
+./api-listener-master/app/Traits/ProcessTrait.php
+
+./api-listener-master/app/Api.php
+
+./api-listener-master/app/Converter.php
+
+./api-listener-master/app/DBTableRecordFactory.php
+
+./api-listener-master/app/Order.php
+
+./api-listener-master/app/Product.php
+
+./api-listener-master/app/StringResponseParser.php
+
+./api-listener-master/app/Token.php
+
+./api-listener-master/app/iDatabaseInterface.php
+
+-- Views/includes --
+
+./api-listener-master/resources/views/includes/footer.php
+
+./api-listener-master/resources/views/includes/header.php
+
+-- Views --
+
+./api-listener-master/resources/views/home.php
+
+./api-listener-master/resources/views/orders.php
+
+./api-listener-master/resources/views/products.php
+
+
+-- Route --
+
+./api-listener-master/routes/web.php
+
+-- JavaScript --
+
+./js/code.js
+
+-- CSS --
+
+./css/style.css
+
+-- Database File Settings --
+
+./api-listener-master/.env
+
 WAP Dev Client Api Listener
 
 Входяща точка на приложението за тестване на Localhost Server:
