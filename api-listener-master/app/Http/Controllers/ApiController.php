@@ -25,7 +25,6 @@ class ApiController extends Controller
 
     public function home(Request $request)
     {
-        //echo Api::getAccessToken();
         //session()->flush();
         try {
             DB::connection()->getPdo();
@@ -42,8 +41,8 @@ class ApiController extends Controller
 
         if(session()->get('is_active_listener')) {
             if(!session()->exists('token') && Token::getIsActiveStatus()){
-                $token = Token::getTokenInUse();
-                session()->put('token', $token);
+                session()->put('token', Token::getTokenInUse());
+                $this->doProcess(session()->get('token'));
             }
             elseif(!session()->exists('token') && !Token::getIsActiveStatus()){
                 $this->startNewProcess();
@@ -52,10 +51,10 @@ class ApiController extends Controller
                 $this->doProcess(session()->get('token'));
                 if ($this->getResponse() == 'error' && Token::getIsExpiredToken()) $this->newProcess();
             }
-
             $data['response'] = $this->getResponse();
         }
         else{
+            if(Token::getIsActiveStatus()) session()->put('token', Token::getTokenInUse());
             Token::getIsExpiredToken() ? $this->destroyProcess() : $this->stopProcess();
             $data = array();
         }
