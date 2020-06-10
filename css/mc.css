@@ -36,6 +36,9 @@
 .mc-label-valid-status{
     color: #4caf50;
 }
+.mc-label-not-valid-status{
+    color: #db5852;
+}
 .mc-label-recording-status{
     float: right;
     margin-left: 50px;
