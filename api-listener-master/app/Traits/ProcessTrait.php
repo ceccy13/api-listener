@@ -21,14 +21,14 @@ trait ProcessTrait
     public function stopProcess()
     {
         session()->forget('is_active_listener');
-        $this->refresh_rate = 5; // Stop Requests By Default
+        $this->setRefreshRate(5); // Stop Requests By Default
     }
 
     public function destroyProcess()
     {
         Token::updateIsActiveStatus(0);
         session()->flush();
-        $this->refresh_rate = -1; // Stop Requests By Default
+        $this->setRefreshRate(-1); // Stop Requests By Default
     }
 
     public function startNewProcess()
@@ -55,7 +55,11 @@ trait ProcessTrait
         $parsed_response = $parser->getParsedResponse();
         DBTableRecordFactory::insert($table, $parsed_response);
 
-        $this->refresh_rate = 5;
+        $this->setRefreshRate(5);
+    }
+
+    public function setRefreshRate($refresh_rate){
+        $this->refresh_rate = $refresh_rate;
     }
 
     public function getRefreshRate()

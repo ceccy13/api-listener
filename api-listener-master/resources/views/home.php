@@ -7,6 +7,7 @@
         <div class="form-group">
             <label id="label_token_default" for="comment">Token:</label>
             <label style="display: none" id="label_token_in_use" class="mc-label-valid-status" for="comment">Valid Token In Use</label>
+            <label style="display: none" id="guest_waiting" class="mc-label-not-valid-status" for="comment">Api Is Locked By Another User!</label>
             <textarea disabled id="token" name="token" class="form-control" rows="10" cols="50" placeholder="" id="comment"><?= session()->get('token') ?></textarea>
             <div class="help-block">
                 <?= $errors->first('token'); ?>

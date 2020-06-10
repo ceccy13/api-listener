@@ -41,8 +41,11 @@
 
                 session()->get('is_active_listener') == null ? $is_active_listener = 0 : $is_active_listener = 1;
                 session()->exists('token') == null ? $is_exists_token = 0 : $is_exists_token = 1;
-                session()->get('start_api_listener') == null ? $start_api_listener = 0 : $start_api_listener = 1;
-                if(session()->get('is_active_listener') || session()->exists('token')){
+                session()->get('guest_waiting') == null ? $guest_waiting = 0 : $guest_waiting = 1;
+                //session()->get('start_api_listener') == null ? $start_api_listener = 0 : $start_api_listener = 1;
+                //session()->get('is_active_listener') ||
+
+                if($is_active_listener || $is_exists_token || $guest_waiting){
                     print('
                         if('.$is_active_listener.') {
                            $(\'#submit\').hide();
@@ -52,6 +55,12 @@
                         else{
                           $ (\'#submit\').show();
                           $(\'#stop\').hide();
+
+                          if(\'.$guest_waiting.\'){
+                            $(\'#submit\').hide();
+                            $(\'#recording_status\').show();
+                            $(\'#guest_waiting\').show();
+                          }
                         }
                         if('.$is_exists_token.') {
                            $(\'#token\').prop( "disabled", true );

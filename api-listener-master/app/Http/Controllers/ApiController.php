@@ -54,9 +54,17 @@ class ApiController extends Controller
             $data['response'] = $this->getResponse();
         }
         else{
-            if(Token::getIsActiveStatus()) session()->put('token', Token::getTokenInUse());
-            Token::getIsExpiredToken() ? $this->destroyProcess() : $this->stopProcess();
-            $data = array();
+            //Token::getIsExpiredToken() ? $this->destroyProcess() : $this->stopProcess();
+            //$data = array();
+
+            if(Token::getIsActiveStatus() && !session()->exists('token')){
+                $this->setRefreshRate(5);
+                session()->put('guest_waiting', 1);
+            }
+            else{
+                $this->destroyProcess();
+            }
+
         }
 
         $data['token_expired_time_percent'] = Token::getExpiredTimePercent();
@@ -73,6 +81,9 @@ class ApiController extends Controller
             $this->doProcess(session()->get('token'));
             if ($this->getResponse() == 'error' && Token::getIsExpiredToken()) $this->newProcess();
         }
+        elseif(Token::getIsActiveStatus() && !session()->exists('token')){
+            $this->setRefreshRate(5);
+        }
 
         $data = Product::get();
         $data['refresh_rate'] = $this->getRefreshRate() * 1000; //miliseconds
@@ -84,6 +95,9 @@ class ApiController extends Controller
         if(session()->exists('token') && session()->get('is_active_listener')) {
             $this->doProcess(session()->get('token'));
             if ($this->getResponse() == 'error' && Token::getIsExpiredToken()) $this->newProcess();
+        }
+        elseif(Token::getIsActiveStatus() && !session()->exists('token')){
+            $this->setRefreshRate(5);
         }
 
         $data = Order::get();
