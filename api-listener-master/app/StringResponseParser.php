@@ -37,7 +37,8 @@ class StringResponseParser
         return $this->response;
     }
 
-    public function getTableName(){
+    public function getTableName()
+    {
         return $this->table;
     }
 

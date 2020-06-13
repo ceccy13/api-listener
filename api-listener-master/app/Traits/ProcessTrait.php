@@ -58,7 +58,8 @@ trait ProcessTrait
         $this->setRefreshRate(5);
     }
 
-    public function setRefreshRate($refresh_rate){
+    public function setRefreshRate($refresh_rate)
+    {
         $this->refresh_rate = $refresh_rate;
     }
 

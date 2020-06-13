@@ -6,7 +6,7 @@ class Converter
 {
     static private $arr = array();
 
-    public function __construct()
+    private function __construct()
     {
 
     }
