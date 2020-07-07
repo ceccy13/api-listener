@@ -57,7 +57,7 @@ class ApiController extends Controller
             //Token::getIsExpiredToken() ? $this->destroyProcess() : $this->stopProcess();
             //$data = array();
 
-            if(Token::getIsActiveStatus() && !session()->exists('token')){
+            if(Token::getIsActiveStatus() && !Token::getIsExpiredToken() && !session()->exists('token')){
                 $this->setRefreshRate(5);
                 session()->put('guest_waiting', 1);
             }
